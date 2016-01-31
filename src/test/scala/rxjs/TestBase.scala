@@ -12,12 +12,12 @@ import scala.concurrent.ExecutionContext
 import scala.concurrent.duration.Duration
 import scala.concurrent._
 import scala.scalajs.js
-import scala.util.Try
+import scala.util.{Failure, Try}
 
 abstract class TestBase extends TestSuite {
   implicit val ec = scalajs.concurrent.JSExecutionContext.runNow
 
-  def future[T](o: Observable[T]): Future[Seq[T]] = new ObservableFuture[T](o)
+  def future[T](o: Observable[T]): ObservableFuture[T] = new ObservableFuture[T](o)
 }
 
 object TestBase {
@@ -32,6 +32,14 @@ object TestBase {
     override def onComplete[U](f: (Try[Seq[T]]) => U)(implicit executor: ExecutionContext): Unit = future.onComplete(f)
     override def isCompleted: Boolean = future.isCompleted
     override def value: Option[Try[Seq[T]]] = future.value
+    def expectFailure(f: (Throwable)=>Any)(implicit ec: ExecutionContext): Future[Seq[T]] = {
+      future.onSuccess{ case _ => throw new RuntimeException("expected Failure")}
+      future.recover{
+        case x =>
+          f(x)
+          Seq()
+      }
+    }
 
     @throws[Exception](classOf[Exception])
     override def result(atMost: Duration)(implicit permit: CanAwait): Seq[T] = future.result(atMost)
