@@ -7,5 +7,7 @@ package rxjs
 import scala.scalajs.js
 
 package object core {
-  type Selector[T,U] = js.Function3[T,Int,Observable[T],U]
+  type Selector[T,U] = js.Function3[T,Int,IObservable[T],U]
+
+
 }

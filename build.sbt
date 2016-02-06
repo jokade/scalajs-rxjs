@@ -25,7 +25,8 @@ lazy val root = project.in(file(".")).
       "com.lihaoyi" %%% "utest" % "0.3.1"
     ),
     jsDependencies ++= Seq(
-      "org.webjars.bower" % "rxjs" % "4.0.6" / "rx.all.min.js" % "test"
+      "org.webjars.npm" % "rxjs" % "5.0.0-alpha.14" / "bundles/Rx.umd.js" % "test"
+      //"org.webjars.bower" % "rxjs" % "4.0.6" / "rx.all.min.js" % "test"
     ),
     testFrameworks += new TestFramework("utest.runner.Framework"),
     resolvers += Resolver.sonatypeRepo("releases")

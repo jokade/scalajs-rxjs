@@ -5,7 +5,7 @@
 package rxjs.core.test
 
 import rxjs.TestBase
-import rxjs.core.Observable
+import rxjs.core.{IObservable, Observable}
 import utest._
 
 import scala.concurrent.Promise
@@ -14,7 +14,7 @@ import scala.scalajs.js
 object ObservableObjectTest extends TestBase {
   val tests = TestSuite {
     'just-{
-      future( Observable.just("hello") ) map { res =>
+      future( Observable.of("hello") ) map { res =>
         assert(res.size == 1, res(0) == "hello" )
       }
       'throwError-{
@@ -26,14 +26,15 @@ object ObservableObjectTest extends TestBase {
 
 
 trait ObservableInstanceBehaviour extends TestBase {
-  def just[T](value: T): Observable[T]
-  def throwError[T](msg: js.Any): Observable[T]
+  import rxjs.core._
+  def just[T](value: T): IObservable[T]
+  def throwError[T](msg: T): IObservable[T]
 
   val tests = TestSuite {
     'subscribe-{
       val p = Promise[Int]()
       'next-{
-        just(42).subscribe((x: Int) => p.success(x))
+        just(42).subscribe(x => p.success(x))
         p.future.map(x => assert(x == 42))
       }
       'err-{
@@ -43,7 +44,7 @@ trait ObservableInstanceBehaviour extends TestBase {
 
     'map-{
       'a-{
-        future( just(42).map( (x:Int) => x+1 ))
+        future( just(42).map( _ + 1 ))
           .map{ res => assert(
             res.size == 1,
             res(0) == 43
@@ -55,6 +56,6 @@ trait ObservableInstanceBehaviour extends TestBase {
 
 
 object ObservableInstanceTest extends ObservableInstanceBehaviour {
-  override def just[T](value: T): Observable[T] = Observable.just(value)
-  override def throwError[T](msg: js.Any): Observable[T] = Observable.throwError(msg)
+  override def just[T](value: T): IObservable[T] = Observable.of(value)
+  override def throwError[T](msg: T): IObservable[T] = Observable.throwError(msg)
 }
