@@ -16,6 +16,8 @@ trait Observable[T] extends js.Object {
   def subscribe[U<:T](onNext: js.Function1[U,Any],
                 onError: js.Function1[js.Dynamic,Any] = null,
                 onCompleted: js.Function0[Any] = null) = js.native
+
+  def toPromise(): js.Promise[T] = js.native
 }
 
 @JSName("Rx.Observable")
