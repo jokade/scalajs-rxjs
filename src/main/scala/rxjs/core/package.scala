@@ -4,10 +4,13 @@
 // Copyright (c) 2016. Distributed under the MIT License (see included LICENSE file).
 package rxjs
 
+import scala.concurrent.Future
 import scala.scalajs.js
 
 package object core {
-  type Selector[T,U] = js.Function3[T,Int,IObservable[T],U]
+  type Selector[T,U] = js.Function3[T,Int,Observable[T],U]
 
-
+  implicit class RichObservable[T](val obv: Observable[T]) {
+    def toFuture: Future[T] = obv.toPromise().toFuture
+  }
 }

@@ -25,6 +25,8 @@ trait IObservable[T] extends js.Object {
   def subscribeJS(onNext: js.Function1[T,_],
                 onError: js.Function1[js.Dynamic,_],
                 onCompleted: js.Function0[_]): js.Dynamic = js.native
+
+  def toPromise(): js.Promise[T] = js.native
 }
 
 object IObservable {
