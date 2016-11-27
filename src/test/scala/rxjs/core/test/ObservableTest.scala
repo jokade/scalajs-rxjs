@@ -4,8 +4,8 @@
 // Copyright (c) 2016. Distributed under the MIT License (see included LICENSE file).
 package rxjs.core.test
 
-import rxjs.TestBase
-import rxjs.core.{IObservable, Observable}
+import rxjs.{Observable$, Observable, TestBase}
+import rxjs.core.Observable
 import utest._
 
 import scala.concurrent.Promise
@@ -27,8 +27,8 @@ object ObservableObjectTest extends TestBase {
 
 trait ObservableInstanceBehaviour extends TestBase {
   import rxjs.core._
-  def just[T](value: T): IObservable[T]
-  def throwError[T](msg: T): IObservable[T]
+  def just[T](value: T): Observable[T]
+  def throwError[T](msg: T): Observable[T]
 
   val tests = TestSuite {
     'subscribe-{
@@ -56,6 +56,6 @@ trait ObservableInstanceBehaviour extends TestBase {
 
 
 object ObservableInstanceTest extends ObservableInstanceBehaviour {
-  override def just[T](value: T): IObservable[T] = Observable.of(value)
-  override def throwError[T](msg: T): IObservable[T] = Observable.throwError(msg)
+  override def just[T](value: T): Observable[T] = Observable.of(value)
+  override def throwError[T](msg: T): Observable[T] = Observable.throwError(msg)
 }

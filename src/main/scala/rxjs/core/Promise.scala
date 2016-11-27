@@ -9,9 +9,9 @@ import scala.scalajs.js
 import scala.scalajs.js.annotation.JSName
 
 @js.native
-trait IPromise[T] extends js.Object {
+class IPromise[T](f: js.Function2[js.Function1[T,Unit],js.Function1[T,Unit],_]) extends js.Object {
   @JSName("then")
-  def andThen[U](onFulfilled: js.Function1[T,U], onRejected: js.Function1[js.Any,_]): IPromise[U]
+  def andThen[U](onFulfilled: js.Function1[T,U], onRejected: js.Function1[js.Any,_]): IPromise[U] = js.native
 }
 
 object IPromise {
@@ -25,6 +25,8 @@ object IPromise {
     @inline
     final def onSuccess[U](f: T=>U): IPromise[U] = p.andThen[U](f,null)
   }
+
+//  def apply[T](resolve: =>T): IPromise[T] = new IPromise[T]((resolve:js.Function1[T,Unit],reject:js))
 }
 
 @js.native

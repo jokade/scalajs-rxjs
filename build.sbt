@@ -1,9 +1,10 @@
 
 lazy val commonSettings = Seq(
   organization := "de.surfice",
-  version := "0.1-SNAPSHOT",
-  scalaVersion := "2.11.7",
+  version := "0.0.1-SNAPSHOT",
+  scalaVersion := "2.11.8",
   scalacOptions ++= Seq("-deprecation","-unchecked","-feature","-Xlint"),
+  resolvers += Resolver.sonatypeRepo("snapshots"),
   libraryDependencies ++= Seq(
   ),
   scalacOptions ++= (if (isSnapshot.value) Seq.empty else Seq({
@@ -14,7 +15,7 @@ lazy val commonSettings = Seq(
 )
 
 
-lazy val root = project.in(file(".")).
+lazy val rxjs = project.in(file(".")).
   enablePlugins(ScalaJSPlugin).
   settings(commonSettings: _*).
   settings(publishingSettings: _*).
@@ -22,10 +23,11 @@ lazy val root = project.in(file(".")).
   settings( 
     name := "scalajs-rxjs",
     libraryDependencies ++= Seq(
-      "com.lihaoyi" %%% "utest" % "0.3.1"
+      "de.surfice" %%% "sjsx" % "0.3.0-SNAPSHOT",
+      "com.lihaoyi" %%% "utest" % "0.3.1" % "test"
     ),
     jsDependencies ++= Seq(
-      "org.webjars.npm" % "rxjs" % "5.0.0-alpha.14" / "bundles/Rx.umd.js" % "test"
+      "org.webjars.npm" % "rxjs" % "5.0.0-beta.12" / "bundles/Rx.umd.js" % "test"
       //"org.webjars.bower" % "rxjs" % "4.0.6" / "rx.all.min.js" % "test"
     ),
     testFrameworks += new TestFramework("utest.runner.Framework"),

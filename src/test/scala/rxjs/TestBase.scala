@@ -5,7 +5,6 @@
 package rxjs
 
 import rxjs.TestBase.ObservableFuture
-import rxjs.core.IObservable
 import utest._
 
 import scala.concurrent.ExecutionContext
@@ -17,11 +16,11 @@ import scala.util.{Failure, Try}
 abstract class TestBase extends TestSuite {
   implicit val ec = scalajs.concurrent.JSExecutionContext.runNow
 
-  def future[T](o: IObservable[T]): ObservableFuture[T] = new ObservableFuture[T](o)
+  def future[T](o: Observable[T]): ObservableFuture[T] = new ObservableFuture[T](o)
 }
 
 object TestBase {
-  class ObservableFuture[T](obs: IObservable[T]) extends Future[Seq[T]] {
+  class ObservableFuture[T](obs: Observable[T]) extends Future[Seq[T]] {
     private var _data  = js.Array[T]()
     private val p = Promise[Seq[T]]()
     private lazy val future = p.future
