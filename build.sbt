@@ -21,8 +21,8 @@ lazy val commonSettings = Seq(
 
 lazy val rxjs = project.in(file("."))
   .aggregate(global,cjsm)
-  .settings(commonSettings: _*)
   .settings(
+    scalaVersion := "2.11.8",
     publish := {},
     publishLocal := {}
   )
