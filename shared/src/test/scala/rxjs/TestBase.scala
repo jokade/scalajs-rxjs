@@ -14,7 +14,7 @@ import scala.scalajs.js
 import scala.util.{Failure, Try}
 
 abstract class TestBase extends TestSuite {
-  implicit val ec = scalajs.concurrent.JSExecutionContext.runNow
+  implicit val ec = scalajs.concurrent.JSExecutionContext.queue
 
   def future[T](o: Observable[T]): ObservableFuture[T] = new ObservableFuture[T](o)
 }
@@ -24,7 +24,7 @@ object TestBase {
     private var _data  = js.Array[T]()
     private val p = Promise[Seq[T]]()
     private lazy val future = p.future
-    obs.subscribeJS((e:T)=> this.synchronized(_data.push(e)),
+    obs.subscribe((e:T)=> this.synchronized(_data.push(e)),
       (err:js.Any) => p.failure(new RuntimeException(err.toString)),
       () => p.success(_data) )
 
