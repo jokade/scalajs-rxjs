@@ -13,8 +13,7 @@ import scala.scalajs.js.annotation.{JSImport, JSName}
 object Operators {
 
   @js.native
-  @JSRef("Rx.Observable.prototype.catch","rxjs/operator/catch","catch")
-  @debug
+  @JSRef("Rx.Observable.prototype._catch","rxjs/operator/catch","_catch")
   object _catch extends js.Object {
     @JSName("call")
     def apply[T,R](observable: Observable[T], selector: js.Function2[js.Any,Observable[T],Observable[R]]): Observable[R] = js.native

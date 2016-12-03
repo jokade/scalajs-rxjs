@@ -2,7 +2,7 @@ val rxjsVersion = "5.0.0-rc.4"
 
 lazy val commonSettings = Seq(
   organization := "de.surfice",
-  version := "0.0.1-SNAPSHOT",
+  version := "0.0.1",
   scalaVersion := "2.11.8",
   scalacOptions ++= Seq("-deprecation","-unchecked","-feature","-Xlint"),
   resolvers += Resolver.sonatypeRepo("snapshots"),
@@ -21,6 +21,7 @@ lazy val commonSettings = Seq(
 
 lazy val rxjs = project.in(file("."))
   .aggregate(global,cjsm)
+  .settings(commonSettings: _*)
   .settings(
     publish := {},
     publishLocal := {}
