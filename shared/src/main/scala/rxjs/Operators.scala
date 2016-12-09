@@ -108,6 +108,8 @@ object Operators {
   object zip extends js.Object {
     @JSName("call")
     def apply[T1,T2,R](observable1: Observable[T1],observable2: Observable[T2], project: js.Function2[T1,T2,R]): Observable[R] = js.native
+    def apply[T1,T2,T3,R](observable1: Observable[T1],observable2: Observable[T2],observable3: Observable[T3], project: js.Function3[T1,T2,T3,R]): Observable[R] = js.native
+
   }
 
 }
