@@ -102,5 +102,12 @@ object Operators {
     @JSName("call")
     def apply[T](observable: Observable[T]): RxPromise[T] = js.native
   }
+  
+  @js.native
+  @JSRef("Rx.Observable.prototype.zip","rxjs/operator/zip","zip")
+  object zip extends js.Object {
+    @JSName("call")
+    def apply[T1,T2,R](observable1: Observable[T1],observable2: Observable[T2], project: js.Function2[T1,T2,R]): Observable[R] = js.native
+  }
 
 }
