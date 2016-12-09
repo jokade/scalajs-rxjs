@@ -27,6 +27,22 @@ object ObservableObjectTest extends TestBase {
       'zip-{
         Observable.zip( Observable.of(42), Observable.of("hello") ).toFuture.map( v => assert(v(0)==42,v(1)=="hello") )
       }
+      'zip2-{
+        Observable.zip( Observable.of(42), Observable.of("hello"), (a:Int,b:String) => b + a ).toFuture.map( v => assert(v=="hello42") )
+      }
+      'zip3-{
+        Observable.zip( Observable.of(42), Observable.of("hello"), Observable.of(1),(a:Int,b:String,c:Int) => b + (a + c) ).toFuture.map( v => assert(v=="hello43") )
+      }
+      'zip4-{
+        Observable.zip( Observable.of(42), Observable.of("hello"), Observable.of(1), Observable.of(2), (a:Int,b:String,c:Int,d:Int) => b + (a + c + d )).toFuture.map( v => assert(v=="hello45") )
+      }
+      'zip5-{
+        Observable.zip( Observable.of(42), Observable.of("hello"), Observable.of(1), Observable.of(2), Observable.of(3), (a:Int,b:String,c:Int,d:Int,e:Int) => b + (a + c + d + e)).toFuture.map( v => assert(v=="hello48") )
+      }
+      'zip6-{
+        Observable.zip( Observable.of(42), Observable.of("hello"), Observable.of(1), Observable.of(2), Observable.of(3), Observable.of(4), (a:Int,b:String,c:Int,d:Int,e:Int,f:Int) => b + (a + c + d + e +f)).toFuture.map( v => assert(v=="hello52") )
+      }
+
       'interval_take-{
         Observable.interval(1).take(10).toFuture.map( v => assert(v==9) )
       }

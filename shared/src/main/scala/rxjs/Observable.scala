@@ -131,7 +131,39 @@ object Observable {
   @JSRef("Rx.Observable.zip","rxjs/observable/zip","zip")
   object zip extends js.Object {
     def apply[T](observables: Observable[T]*): Observable[js.Array[T]] = js.native
+    def apply[T1,T2,R](
+        observable1: Observable[T1],
+        observable2: Observable[T2], 
+        fn:js.Function2[T1,T2,R]):Observable[R] = js.native
+    def apply[T1,T2,T3,R](
+        observable1: Observable[T1],
+        observable2: Observable[T2],
+        observable3: Observable[T3], 
+        fn:js.Function3[T1,T2,T3,R]):Observable[R] = js.native
+    def apply[T1,T2,T3,T4,R](
+        observable1: Observable[T1],
+        observable2: Observable[T2],
+        observable3: Observable[T3],
+        observable4: Observable[T4], 
+        fn:js.Function4[T1,T2,T3,T4,R]):Observable[R] = js.native
+    def apply[T1,T2,T3,T4,T5,R](
+        observable1: Observable[T1],
+        observable2: Observable[T2],
+        observable3: Observable[T3],
+        observable4: Observable[T4], 
+        observable5: Observable[T5], 
+        fn:js.Function5[T1,T2,T3,T4,T5,R]):Observable[R] = js.native
+    def apply[T1,T2,T3,T4,T5,T6,R](
+        observable1: Observable[T1],
+        observable2: Observable[T2],
+        observable3: Observable[T3],
+        observable4: Observable[T4], 
+        observable5: Observable[T5], 
+        observable6: Observable[T6], 
+        fn:js.Function6[T1,T2,T3,T4,T5,T6,R]):Observable[R] = js.native
+
   }
+
 }
 
 
