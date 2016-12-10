@@ -2,12 +2,12 @@ val rxjsVersion = "5.0.0-rc.4"
 
 lazy val commonSettings = Seq(
   organization := "de.surfice",
-  version := "0.0.1",
+  version := "0.0.2-SNAPSHOT",
   scalaVersion := "2.11.8",
   scalacOptions ++= Seq("-deprecation","-unchecked","-feature","-Xlint"),
   resolvers += Resolver.sonatypeRepo("snapshots"),
   libraryDependencies ++= Seq(
-    "de.surfice" %%% "smacrotools-sjs" % "0.0.2-SNAPSHOT" % "provided",
+    "de.surfice" %%% "smacrotools-sjs" % "0.0.2" % "provided",
     "com.lihaoyi" %%% "utest" % "0.4.4" % "test"
   ),
   scalacOptions ++= (if (isSnapshot.value) Seq.empty else Seq({
