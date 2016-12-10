@@ -102,4 +102,5 @@ object Operators {
     @JSName("call")
     def apply[T](observable: Observable[T]): RxPromise[T] = js.native
   }
+
 }
