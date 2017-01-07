@@ -27,11 +27,22 @@ object RxPromise {
   @inline
   implicit def toObservable[T](p: RxPromise[T]): Observable[T] = Observable.fromPromise(p)
 
+  type ResolveFun[T] = Function1[T,js.Promise[T]]
+  type RejectFun = Function1[Any,js.Promise[Nothing]]
+
+  @JSName("Promise")
+  @js.native
+  private class Impl[T](executor: js.Function2[js.Function1[T,Unit],js.Function1[Any,Unit],Any]) extends js.Object
+
+  def apply[T](executor: Function2[js.Function1[T,Unit],js.Function1[Any,Unit],Any]): RxPromise[T] = new Impl(executor).asInstanceOf[RxPromise[T]]
   def resolve[T](value: T): RxPromise[T] = js.Promise.resolve[T](value).asInstanceOf[RxPromise[T]]
   def reject(reason: Any): RxPromise[Nothing] = js.Promise.reject(reason).asInstanceOf[RxPromise[Nothing]]
 
   implicit final class RichRxPromise[T](val p: RxPromise[T]) extends AnyVal {
     @inline
+    def map[R](f: T=>R): RxPromise[R] = p.andThen(f)
+    @inline
+    @deprecated("Use map() instead","0.0.2")
     def onFulfilled[R](f: T=>R): RxPromise[R] = p.andThen(f)
     @inline
     def onError(f: js.Any=>_): RxPromise[T] = p.orCatch(f)

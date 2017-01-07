@@ -1,13 +1,15 @@
-val rxjsVersion = "5.0.0-rc.4"
+version in ThisBuild := "0.0.2"
+
+val rxjsVersion = "5.0.1"
+val smacrotoolsVersion = "0.0.5"
+
+organization in ThisBuild := "de.surfice"
 
 lazy val commonSettings = Seq(
-  organization := "de.surfice",
-  version := "0.0.2-SNAPSHOT",
-  scalaVersion := "2.11.8",
   scalacOptions ++= Seq("-deprecation","-unchecked","-feature","-Xlint"),
   resolvers += Resolver.sonatypeRepo("snapshots"),
   libraryDependencies ++= Seq(
-    "de.surfice" %%% "smacrotools-sjs" % "0.0.2" % "provided",
+    "de.surfice" %%% "smacrotools-sjs" % smacrotoolsVersion % "provided",
     "com.lihaoyi" %%% "utest" % "0.4.4" % "test"
   ),
   scalacOptions ++= (if (isSnapshot.value) Seq.empty else Seq({
@@ -15,14 +17,18 @@ lazy val commonSettings = Seq(
         val g = "https://raw.githubusercontent.com/jokade/scalajs-rxjs"
         s"-P:scalajs:mapSourceURI:$a->$g/v${version.value}/"
       })),
-  crossScalaVersions := Seq("2.11.8","2.12.0"),
   addCompilerPlugin("org.scalamacros" % "paradise" % "2.1.0" cross CrossVersion.full)
+)
+
+lazy val crossSettings = Seq(
+  scalaVersion := "2.11.8",
+  crossScalaVersions := Seq("2.11.8","2.12.1")
 )
 
 lazy val rxjs = project.in(file("."))
   .aggregate(global,cjsm)
+  .settings(crossSettings:_*)
   .settings(
-    scalaVersion := "2.11.8",
     publish := {},
     publishLocal := {}
   )
@@ -30,6 +36,7 @@ lazy val rxjs = project.in(file("."))
 lazy val global = project
   .enablePlugins(ScalaJSPlugin)
   .settings(commonSettings: _*)
+  .settings(crossSettings:_*)
   .settings(publishingSettings: _*)
   .settings( 
     name := "scalajs-rxjs",
@@ -47,6 +54,7 @@ lazy val global = project
 lazy val cjsm = project
   .enablePlugins(ScalaJSPlugin)
   .settings(commonSettings: _*)
+  .settings(crossSettings:_*)
   .settings(publishingSettings: _*)
   .settings(
     name := "scalajs-rxjs_cjsm",

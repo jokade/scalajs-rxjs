@@ -34,7 +34,14 @@ object Operators {
   }
 
   @js.native
-  @JSRef("Rx.Observable.prototype.do","rxjs/operator/do","do")
+  @JSRef("Rx.Observable.prototype.delay","rxjs/operator/delay","delay")
+  object delay extends js.Object {
+    @JSName("call")
+    def apply[T](observable: Observable[T], delay: Int): Observable[T] = js.native
+  }
+
+  @js.native
+  @JSRef("Rx.Observable.prototype._do","rxjs/operator/do","_do")
   object _do extends js.Object {
     @JSName("call")
     def apply[T](observable: Observable[T], f: js.Function1[T,_]): Observable[T] = js.native

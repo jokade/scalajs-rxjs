@@ -41,6 +41,9 @@ object Observable {
     def debounceTime(dueTime: Int): Observable[T] = Operators.debounceTime(o,dueTime)
 
     @inline
+		def delay(delay: Int): Observable[T] = Operators.delay(o,delay)
+
+    @inline
     def distinctUntilChanged(compare: js.UndefOr[js.Function] = js.undefined): Observable[T] = Operators.distinctUntilChanged(o,compare)
 
     @inline

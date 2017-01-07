@@ -46,5 +46,9 @@ object TestBase {
     @throws[InterruptedException](classOf[InterruptedException])
     @throws[TimeoutException](classOf[TimeoutException])
     override def ready(atMost: Duration)(implicit permit: CanAwait): ObservableFuture.this.type = ???
+
+    // additional members since 2.12.0
+    def transform[S](f: scala.util.Try[Seq[T]] => scala.util.Try[S])(implicit executor: scala.concurrent.ExecutionContext): scala.concurrent.Future[S] = ???
+    def transformWith[S](f: scala.util.Try[Seq[T]] => scala.concurrent.Future[S])(implicit executor: scala.concurrent.ExecutionContext): scala.concurrent.Future[S] = ???
   }
 }
