@@ -32,6 +32,28 @@ object Observable {
   implicit final class RichIObservable[T](val o: Observable[T]) extends AnyVal {
 
     @inline
+    def buffer(closingNotifier: Observable[Any]): Observable[js.Array[T]] = Operators.buffer(o,closingNotifier)
+
+    @inline
+		def `catch`[R](selector: (js.Any,Observable[T])=>Observable[R]): Observable[R] = Operators._catch(o,selector)
+
+    /**
+     * Catches errors and either retries the source observable (if the selector returns true),
+     * or returns an empty Observable (if the selector returns false).
+     *
+     * @param selector a function that takes as arguments `err`, which is the error, and `caught`, which is the
+     *                 source observable. If this function returns true, this source observable will be "retried",
+     *                 otherwise the error will be thrown.
+     */
+    @inline
+    def catchOrRetry(selector: (js.Any,Observable[T])=>Boolean): Observable[T] = Operators._catch(o, (err:js.Any,obs:Observable[T]) => {
+      if(selector(err,obs))
+        obs
+			else Observable.empty()
+//				RxPromise.reject(err).asInstanceOf[Observable[T]]
+    })
+
+    @inline
     def count: Observable[Int] = Operators.count(o)
 
     @inline
@@ -58,6 +80,11 @@ object Observable {
     @inline
     def find(predicate: (T,Int)=>Boolean): Observable[T] = Operators.find(o,predicate)
 
+    @inline
+    def first: Observable[T] = Operators.first(o)
+    @inline
+    def first(predicate: (T,Int,Observable[T])=>Boolean): Observable[T] = Operators.first(o,predicate:js.Function3[T,Int,Observable[T],Boolean])
+
 //    @inline
 //    def forEach(next: T=>Any): Observable[T] = o.forEachJS(next:js.Function1[T,_])
 
@@ -65,15 +92,25 @@ object Observable {
     def map[R](project: (T,Int) =>R): Observable[R] = Operators.map(o,project)
 
     @inline
+    @deprecated("Use catch() or catchOrRetry() instead","0.0.3")
     def onError[R](selector: (js.Any,Observable[T])=>Observable[R]): Observable[R] = Operators._catch(o,selector)
 
     @inline
+    @deprecated("Use catch() or catchOrRetry() instead","0.0.3")
     def onError[R](onError: js.Any=>Any)(default: =>R): Observable[R] = Operators._catch(o,(error:js.Any,obs:Observable[_])=>{onError(error);Observable.of(default)})
+
+    @inline
+    @deprecated("Use catch() or catchOrRetry() instead","0.0.3")
+    def onError[R](default: =>R)(onError: js.Any=>Any): Observable[R] = Operators._catch(o,(error:js.Any,obs:Observable[_])=>{onError(error);Observable.of(default)})
 
     @inline
     def subscribe[R](next: T=>R): Subscription = o.subscribeJS(next: js.Function1[T,_],js.undefined,js.undefined)
 
-    def subscribe[R](next: T=>R, error: js.Any=>_, complete: ()=>_): Subscription =
+		@inline
+		def subscribe[R](next: T=>R, error: Any=>_): Subscription = o.subscribeJS(next: js.Function1[T,_], error: js.Function1[Any,_], js.undefined)
+
+    @inline
+    def subscribe[R](next: T=>R, error: Any=>_, complete: ()=>_): Subscription =
       o.subscribeJS(next: js.Function1[T,_],error: js.Function1[js.Any,_],complete: js.Function0[_])
 
     @inline
@@ -101,6 +138,19 @@ object Observable {
   }
 
   @js.native
+  @JSRef("Rx.Observable.defer","rxjs/observable/defer","defer")
+  object defer extends js.Object {
+    def apply[T](observableFactory: js.Function0[Observable[T]]): Observable[T] = js.native
+//    def apply[T](observableFactory: js.Function0[RxPromise[T]]): Observable[T] = js.native
+  }
+
+	@js.native
+	@JSRef("Rx.Observable.empty","rxjs/observable/empty","empty")
+	object empty extends js.Object {
+		def apply(): Observable[Nothing] = js.native
+	}
+
+  @js.native
   @JSRef("Rx.Observable.fromPromise","rxjs/observable/fromPromise","fromPromise")
   object fromPromise extends js.Object {
     def apply[T](promise: js.Promise[T]): Observable[T] = js.native
@@ -119,9 +169,15 @@ object Observable {
   }
 
   @js.native
-  @JSRef("Rx.Observable.throw","rxjs/observable/throw","throw")
+  @JSRef("Rx.Observable.never","rxjs/observable/never","never")
+  object never extends js.Object {
+    def apply(): Observable[Nothing] = js.native
+  }
+
+  @js.native
+  @JSRef("Rx.Observable.throw","rxjs/observable/throw","_throw")
   object throwError extends js.Object {
-    def apply[T](msg: T): Observable[T] = js.native
+    def apply(msg: Any): Observable[_] = js.native
   }
 
   @js.native

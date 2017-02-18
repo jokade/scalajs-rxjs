@@ -1,4 +1,4 @@
-version in ThisBuild := "0.0.2"
+version in ThisBuild := "0.0.3-SNAPSHOT"
 
 val rxjsVersion = "5.0.1"
 val smacrotoolsVersion = "0.0.5"

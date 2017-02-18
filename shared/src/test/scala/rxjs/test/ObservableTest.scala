@@ -5,6 +5,9 @@
 package rxjs.test
 
 import rxjs.{Observable, TestBase}
+
+import scalajs.js
+import scala.util.Failure
 import utest._
 
 import scala.concurrent.Promise
@@ -16,10 +19,15 @@ object ObservableObjectTest extends TestBase {
         assert(res.size == 1, res(0) == "hello" )
       }
       'throw-{
-        future( Observable.throwError("error") ).expectFailure( x => assert(x.getMessage == "error") )
+         Observable.throwError("error").toFuture.recover{
+           case ex: js.JavaScriptException => assert( ex.getMessage() == "error" )
+         }
       }
       'concat-{
         Observable.concat( Observable.of(42), Observable.of("hello") ).count.toFuture.map( v => assert(v==2) )
+      }
+      'defer-{
+        Observable.defer( () => Observable.of(42) ).toFuture.map( v => assert( v == 42 ) )
       }
       'range-{
         Observable.range(1,10).toFuture.map( v => assert(v==10) )
@@ -143,14 +151,12 @@ object ObservableObjectTest extends TestBase {
 
 
 trait ObservableInstanceBehaviour extends TestBase {
-  def just[T](value: T): Observable[T]
-  def throwError[T](msg: T): Observable[T]
 
   val tests = TestSuite {
     'subscribe-{
       val p = Promise[Int]()
       'next-{
-        just(42).subscribe(x => p.success(x))
+        Observable.of(42).subscribe(x => p.success(x))
         p.future.map(x => assert(x == 42))
       }
 //      'err-{
@@ -158,7 +164,47 @@ trait ObservableInstanceBehaviour extends TestBase {
 //      }
     }
     'toFuture-{
-      just(42).toFuture.map ( v => assert(v==42) )
+      Observable.of(42).toFuture.map ( v => assert(v==42) )
+    }
+    'buffer-{
+//      val obs = Observable.of(1, 2, 3, 4, 5)
+//      val notifier = obs.share.filter( (i,_) => i==3 )
+//      notifier.subscribeJS()
+//      obs.buffer(notifier).toFuture.map{
+//        case x => println(x) //assert(x == js.Array(1,2))
+//      }
+    }
+    'catchOrRetry-{
+      'catch-{
+        var lastN = 0
+          Observable.of(1, 2, 3, 4, 5)
+            .map( (n, _) => if(n==4) throw js.JavaScriptException("four!") else n )
+            .catchOrRetry{
+              case _ => false
+            }
+            .map( (n,_) => lastN = n).toFuture.map(_ => assert( lastN == 3 ))
+      }
+      'retry- {
+        var lastN = 0
+        var catched = false
+        Observable.of(1, 2, 3, 4, 5)
+          .map((n, _) => if (n == 4 && !catched) throw js.JavaScriptException("four!") else n)
+          .catchOrRetry {
+            case _ =>
+              catched = true
+              true
+          }
+          .take(5)
+          .map((n, _) => lastN = n)
+          .toFuture.map( _ => assert(lastN == 2) )
+      }
+      'exception-{
+        Observable.of(1).map[Int]( (_,_) => throw scalajs.js.JavaScriptException(1) )
+          .catchOrRetry{
+          case x =>
+            false
+        }.subscribe(_ => ())
+      }
     }
     'count-{
       'simple- {
@@ -189,7 +235,7 @@ trait ObservableInstanceBehaviour extends TestBase {
 //      }
     }
     'map-{
-      just(42).map( (i,_) => i+1 ).toFuture.map( v => assert(v==43) )
+      Observable.of(42).map( (i,_) => i+1 ).toFuture.map( v => assert(v==43) )
     }
     'take-{
       Observable.range(1,10).take(5).count.toFuture.map(v => assert(v==5) )
@@ -199,6 +245,4 @@ trait ObservableInstanceBehaviour extends TestBase {
 
 
 object ObservableInstanceTest extends ObservableInstanceBehaviour {
-  override def just[T](value: T): Observable[T] = Observable.of(value)
-  override def throwError[T](msg: T): Observable[T] = Observable.throwError(msg)
 }

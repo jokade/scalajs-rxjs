@@ -13,6 +13,13 @@ import scala.scalajs.js.annotation.{JSImport, JSName}
 object Operators {
 
   @js.native
+  @JSRef("Rx.Observable.prototype.buffer","rxjs/operator/buffer","buffer")
+  object buffer extends js.Object {
+    @JSName("call")
+    def apply[T](observable: Observable[T], closingNotifier: Observable[Any]): Observable[js.Array[T]] = js.native
+  }
+
+  @js.native
   @JSRef("Rx.Observable.prototype._catch","rxjs/operator/catch","_catch")
   object _catch extends js.Object {
     @JSName("call")
@@ -80,6 +87,13 @@ object Operators {
   object find extends js.Object {
     @JSName("call")
     def apply[T](observable: Observable[T], predicate: js.Function2[T,Int,Boolean]): Observable[T] = js.native
+  }
+
+  @js.native
+  @JSRef("Rx.Observable.prototype.first","rxjs/operator/first","first")
+  object first extends js.Object {
+    @JSName("call")
+    def apply[T](observable: Observable[T], predicate: js.UndefOr[js.Function3[T,Int,Observable[T],Boolean]] = js.undefined): Observable[T] = js.native
   }
 
   @js.native
