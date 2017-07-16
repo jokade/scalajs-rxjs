@@ -6,7 +6,7 @@
 package rxjs
 
 import scala.scalajs.js
-import scala.scalajs.js.annotation.JSName
+import scala.scalajs.js.annotation.{JSGlobal, JSName}
 import scala.language.implicitConversions
 
 @js.native
@@ -30,7 +30,7 @@ object RxPromise {
   type ResolveFun[T] = Function1[T,js.Promise[T]]
   type RejectFun = Function1[Any,js.Promise[Nothing]]
 
-  @JSName("Promise")
+  @JSGlobal("Promise")
   @js.native
   private class Impl[T](executor: js.Function2[js.Function1[T,Unit],js.Function1[Any,Unit],Any]) extends js.Object
 

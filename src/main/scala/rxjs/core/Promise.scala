@@ -6,9 +6,10 @@
 package rxjs.core
 
 import scala.scalajs.js
-import scala.scalajs.js.annotation.JSName
+import scala.scalajs.js.annotation.{JSGlobal, JSName}
 
 @js.native
+@JSGlobal("Promise")
 class IPromise[T](f: js.Function2[js.Function1[T,Unit],js.Function1[T,Unit],_]) extends js.Object {
   @JSName("then")
   def andThen[U](onFulfilled: js.Function1[T,U], onRejected: js.Function1[js.Any,_]): IPromise[U] = js.native
@@ -30,7 +31,7 @@ object IPromise {
 }
 
 @js.native
-@JSName("Promise")
+@JSGlobal("Promise")
 object Promise extends js.Object {
   def resolve[T](value: T): IPromise[T] = js.native
   def reject[T](value: T): IPromise[T] = js.native

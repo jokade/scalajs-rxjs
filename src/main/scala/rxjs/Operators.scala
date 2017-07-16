@@ -5,120 +5,118 @@
 // Copyright (c) 2016. Distributed under the MIT License (see included LICENSE file).
 package rxjs
 
-import de.surfice.smacrotools.{JSRef, debug}
-
 import scala.scalajs.js
 import scala.scalajs.js.annotation.{JSImport, JSName}
 
 object Operators {
 
   @js.native
-  @JSRef("Rx.Observable.prototype.buffer","rxjs/operator/buffer","buffer")
+  @JSImport("rxjs/operator/buffer","buffer","Rx.Observable.prototype.buffer")
   object buffer extends js.Object {
     @JSName("call")
     def apply[T](observable: Observable[T], closingNotifier: Observable[Any]): Observable[js.Array[T]] = js.native
   }
 
   @js.native
-  @JSRef("Rx.Observable.prototype._catch","rxjs/operator/catch","_catch")
+  @JSImport("rxjs/operator/catch","_catch","Rx.Observable.prototype._catch")
   object _catch extends js.Object {
     @JSName("call")
     def apply[T,R](observable: Observable[T], selector: js.Function2[js.Any,Observable[T],Observable[R]]): Observable[R] = js.native
   }
 
   @js.native
-  @JSRef("Rx.Observable.prototype.concatAll","rxjs/operator/concatAll","concatAll")
+  @JSImport("rxjs/operator/concatAll","concatAll","Rx.Observable.prototype.concatAll")
   object concatAll extends js.Object {
     @JSName("call")
     def apply[T](observable: Observable[Observable[T]]): Observable[T] = js.native
   }
 
   @js.native
-  @JSRef("Rx.Observable.prototype.count","rxjs/operator/count","count")
+  @JSImport("rxjs/operator/count","count","Rx.Observable.prototype.count")
   object count extends js.Object {
     @JSName("call")
     def apply[T](observable: Observable[T], predicate: js.UndefOr[js.Function3[T,Int,Observable[T],Boolean]] = js.undefined): Observable[Int] = js.native
   }
 
   @js.native
-  @JSRef("Rx.Observable.prototype.delay","rxjs/operator/delay","delay")
+  @JSImport("rxjs/operator/delay","delay","Rx.Observable.prototype.delay")
   object delay extends js.Object {
     @JSName("call")
     def apply[T](observable: Observable[T], delay: Int): Observable[T] = js.native
   }
 
   @js.native
-  @JSRef("Rx.Observable.prototype._do","rxjs/operator/do","_do")
+  @JSImport("rxjs/operator/do","_do","Rx.Observable.prototype._do")
   object _do extends js.Object {
     @JSName("call")
     def apply[T](observable: Observable[T], f: js.Function1[T,_]): Observable[T] = js.native
   }
 
   @js.native
-  @JSRef("Rx.Observable.prototype.debounceTime","rxjs/operator/debounceTime","debounceTime")
+  @JSImport("rxjs/operator/debounceTime","debounceTime","Rx.Observable.prototype.debounceTime")
   object debounceTime extends js.Object {
     @JSName("call")
     def apply[T](observable: Observable[T], dueTime: Int): Observable[T] = js.native
   }
 
   @js.native
-  @JSRef("Rx.Observable.prototype.distinctUntilChanged","rxjs/operator/distinctUntilChanged","distinctUntilChanged")
+  @JSImport("rxjs/operator/distinctUntilChanged","distinctUntilChanged","Rx.Observable.prototype.distinctUntilChanged")
   object distinctUntilChanged extends js.Object {
     @JSName("call")
     def apply[T](observable: Observable[T], compare: js.UndefOr[js.Function] = js.undefined): Observable[T] = js.native
   }
 
   @js.native
-  @JSRef("Rx.Observable.prototype.elementAt","rxjs/operator/elementAt","elementAt")
+  @JSImport("rxjs/operator/elementAt","elementAt","Rx.Observable.prototype.elementAt")
   object elementAt extends js.Object {
     @JSName("call")
     def apply[T](observable: Observable[T], index: Int): Observable[T] = js.native
   }
 
   @js.native
-  @JSRef("Rx.Observable.prototype.filter","rxjs/operator/filter","filter")
+  @JSImport("rxjs/operator/filter","filter","Rx.Observable.prototype.filter")
   object filter extends js.Object {
     @JSName("call")
     def apply[T](observable: Observable[T], predicate: js.Function2[T,Int,Boolean]): Observable[T] = js.native
   }
 
   @js.native
-  @JSRef("Rx.Observable.prototype.find","rxjs/operator/find","find")
+  @JSImport("rxjs/operator/find","find","Rx.Observable.prototype.find")
   object find extends js.Object {
     @JSName("call")
     def apply[T](observable: Observable[T], predicate: js.Function2[T,Int,Boolean]): Observable[T] = js.native
   }
 
   @js.native
-  @JSRef("Rx.Observable.prototype.first","rxjs/operator/first","first")
+  @JSImport("rxjs/operator/first","first","Rx.Observable.prototype.first")
   object first extends js.Object {
     @JSName("call")
     def apply[T](observable: Observable[T], predicate: js.UndefOr[js.Function3[T,Int,Observable[T],Boolean]] = js.undefined): Observable[T] = js.native
   }
 
   @js.native
-  @JSRef("Rx.Observable.prototype.map","rxjs/operator/map", "map")
+  @JSImport("rxjs/operator/map", "map","Rx.Observable.prototype.map")
   object map extends js.Object {
     @JSName("call")
     def apply[T,R](observable: Observable[T], project: js.Function2[T, Int, R]): Observable[R] = js.native
   }
 
   @js.native
-  @JSRef("Rx.Observable.prototype.switchMap","rxjs/operator/switchMap","switchMap")
+  @JSImport("rxjs/operator/switchMap","switchMap","Rx.Observable.prototype.switchMap")
   object switchMap extends js.Object {
     @JSName("call")
     def apply[T,R](observable: Observable[T], project: js.Function2[T, Int, Observable[R]]): Observable[R] = js.native
   }
 
   @js.native
-  @JSRef("Rx.Observable.prototype.take","rxjs/operator/take","take")
+  @JSImport("rxjs/operator/take","take","Rx.Observable.prototype.take")
   object take extends js.Object {
     @JSName("call")
     def apply[T](observable: Observable[T], count: Int): Observable[T] = js.native
   }
 
   @js.native
-  @JSRef("Rx.Observable.prototype.toPromise","rxjs/operator/toPromise","toPromise")
+  @JSImport("rxjs/operator/toPromise","toPromise","Rx.Observable.prototype.toPromise")
   object toPromise extends js.Object {
     @JSName("call")
     def apply[T](observable: Observable[T]): RxPromise[T] = js.native

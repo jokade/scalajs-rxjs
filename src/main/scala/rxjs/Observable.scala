@@ -5,12 +5,11 @@
 // Copyright (c) 2016. Distributed under the MIT License (see included LICENSE file).
 package rxjs
 
-import de.surfice.smacrotools.JSRef
 import rxjs.core.Subscription
 
 import scala.concurrent.Future
 import scala.scalajs.js
-import scala.scalajs.js.annotation.JSName
+import scala.scalajs.js.annotation.{JSImport, JSName}
 
 
 @js.native
@@ -132,62 +131,62 @@ object Observable {
   }
 
   @js.native
-  @JSRef("Rx.Observable.concat","rxjs/observable/concat","concat")
+  @JSImport("rxjs/observable/concat","concat","Rx.Observable.concat")
   object concat extends js.Object {
     def apply[T](inputs: Observable[T]*): Observable[T] = js.native
   }
 
   @js.native
-  @JSRef("Rx.Observable.defer","rxjs/observable/defer","defer")
+  @JSImport("rxjs/observable/defer","defer","Rx.Observable.defer")
   object defer extends js.Object {
     def apply[T](observableFactory: js.Function0[Observable[T]]): Observable[T] = js.native
 //    def apply[T](observableFactory: js.Function0[RxPromise[T]]): Observable[T] = js.native
   }
 
 	@js.native
-	@JSRef("Rx.Observable.empty","rxjs/observable/empty","empty")
+	@JSImport("rxjs/observable/empty","empty","Rx.Observable.empty")
 	object empty extends js.Object {
 		def apply(): Observable[Nothing] = js.native
 	}
 
   @js.native
-  @JSRef("Rx.Observable.fromPromise","rxjs/observable/fromPromise","fromPromise")
+  @JSImport("rxjs/observable/fromPromise","fromPromise","Rx.Observable.fromPromise")
   object fromPromise extends js.Object {
     def apply[T](promise: js.Promise[T]): Observable[T] = js.native
   }
 
   @js.native
-  @JSRef("Rx.Observable.interval","rxjs/observable/interval","interval")
+  @JSImport("rxjs/observable/interval","interval","Rx.Observable.interval")
   object interval extends js.Object {
     def apply(period: Int = 0): Observable[Int] = js.native
   }
 
   @js.native
-  @JSRef("Rx.Observable.of","rxjs/observable/of","of")
+  @JSImport("rxjs/observable/of","of","Rx.Observable.of")
   object of extends js.Object {
     def apply[T](values: T*): Observable[T] = js.native
   }
 
   @js.native
-  @JSRef("Rx.Observable.never","rxjs/observable/never","never")
+  @JSImport("rxjs/observable/never","never","Rx.Observable.never")
   object never extends js.Object {
     def apply(): Observable[Nothing] = js.native
   }
 
   @js.native
-  @JSRef("Rx.Observable.throw","rxjs/observable/throw","_throw")
+  @JSImport("rxjs/observable/throw","_throw","Rx.Observable.throw")
   object throwError extends js.Object {
     def apply(msg: Any): Observable[_] = js.native
   }
 
   @js.native
-  @JSRef("Rx.Observable.range","rxjs/observable/range","range")
+  @JSImport("rxjs/observable/range","range","Rx.Observable.range")
   object range extends js.Object {
     def apply(start: Int = 0, count: Int = 0, scheduler: js.UndefOr[Scheduler] = js.undefined): Observable[Int] = js.native
   }
 
   @js.native
-  @JSRef("Rx.Observable.zip","rxjs/observable/zip","zip")
+  @JSImport("rxjs/observable/zip","zip","Rx.Observable.zip")
   object zip extends js.Object {
     def apply[T](observables: Observable[T]*): Observable[js.Array[T]] = js.native
     def apply[T1,T2,R](
