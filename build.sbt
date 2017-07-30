@@ -1,6 +1,4 @@
-version in ThisBuild := "0.0.3-SNAPSHOT"
-
-val rxjsVersion = "5.0.1"
+version in ThisBuild := "0.0.4"
 
 organization in ThisBuild := "de.surfice"
 
@@ -30,9 +28,6 @@ lazy val rxjs = project.in(file("."))
   .settings( 
     name := "scalajs-rxjs",
     libraryDependencies ++= Seq(
-    ),
-    jsDependencies ++= Seq(
-      "org.webjars.npm" % "rxjs" % rxjsVersion / "bundles/Rx.js" commonJSName "Rx"
     ),
     testFrameworks += new TestFramework("utest.runner.Framework"),
     resolvers += Resolver.sonatypeRepo("releases")
