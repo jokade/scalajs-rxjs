@@ -1,4 +1,4 @@
-version in ThisBuild := "0.0.5"
+version in ThisBuild := "0.0.6-SNAPSHOT"
 
 organization in ThisBuild := "de.surfice"
 
